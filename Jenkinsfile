@@ -7,6 +7,8 @@ pipeline {
     }
 
     environment {
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk-17'
+        PATH = "${JAVA_HOME}\\bin;${env.PATH}"
         MAVEN_OPTS = "-Dmaven.test.failure.ignore=false"
     }
 
