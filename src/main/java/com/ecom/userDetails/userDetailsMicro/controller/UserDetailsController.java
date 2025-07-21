@@ -43,6 +43,8 @@ public UserDetails getUserById(@PathVariable Integer id) {
 
      @GetMapping("/cartItems/{userId}")
     public List<cartItems> getCartItemsByUserId(@PathVariable Integer userId){
+
         return userService.getCartItemsByUserId(userId);
+
      }
 }
