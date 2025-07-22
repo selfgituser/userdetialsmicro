@@ -37,7 +37,6 @@ public UserDetails getUserById(@PathVariable Integer id) {
 
      @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Integer id){
-
          userService.deleteById(id);
      }
 
