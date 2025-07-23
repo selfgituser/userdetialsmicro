@@ -1,13 +1,14 @@
 pipeline {
     agent any
 
-     tools {
-        maven 'Maven_3.8.8'   // Must match name configured in Jenkins → Global Tool Configuration
-       /*  jdk 'JDK_17'   */        // Or JDK_11 etc. – must also match Jenkins global config
+    environment {
+        IMAGE_NAME = 'dockergodown/userDetailservice'
+        IMAGE_TAG = "latest"
     }
 
-    environment {
-        MAVEN_OPTS = "-Dmaven.test.failure.ignore=false"
+    tools {
+        maven 'Maven 3.8.8'  // Adjust as needed
+        jdk 'JDK 17'         // Adjust according to your setup
     }
 
     stages {
@@ -17,27 +18,42 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build with Maven') {
             steps {
-                sh 'java --version'
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Archive Artifact') {
+        stage('Build Docker Image') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                script {
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                }
             }
         }
 
+        stage('Push Docker Image') {
+            when {
+                expression { return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master' }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push ${IMAGE_NAME}:${IMAGE_TAG}
+                        docker logout
+                    '''
+                }
+            }
+        }
     }
 
     post {
-        failure {
-            echo 'Build failed!'
-        }
         success {
-            echo 'Build succeeded!'
+            echo "Build and Docker image creation successful: ${IMAGE_NAME}:${IMAGE_TAG}"
+        }
+        failure {
+            echo "Build failed!"
         }
     }
 }
