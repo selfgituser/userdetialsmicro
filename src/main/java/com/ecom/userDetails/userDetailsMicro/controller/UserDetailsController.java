@@ -44,7 +44,5 @@ public UserDetails getUserById(@PathVariable Integer id) {
     public List<cartItems> getCartItemsByUserId(@PathVariable Integer userId){
 
         return userService.getCartItemsByUserId(userId);
-
-
      }
 }
