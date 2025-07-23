@@ -7,8 +7,8 @@ pipeline {
     }
 
     tools {
-        maven 'Maven 3.8.8'  // Adjust as needed
-        jdk 'JDK 17'         // Adjust according to your setup
+        maven 'Maven_3.8.8'  // Adjust as needed
+        jdk 'JDK_17'         // Adjust according to your setup
     }
 
     stages {
