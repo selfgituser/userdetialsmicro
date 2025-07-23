@@ -36,9 +36,6 @@ pipeline {
         }
 
         stage('Push Docker Image') {
-            when {
-                expression { return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master' }
-            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
