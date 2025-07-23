@@ -28,6 +28,9 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                    def branch = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+                     env.BRANCH_NAME = branch
+                     echo "Detected branch: ${env.BRANCH_NAME}"
                 }
             }
         }
