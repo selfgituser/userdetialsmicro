@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'dockergodown/userDetailservice'
+        IMAGE_NAME = 'dockergodown/userdetailservice'
         IMAGE_TAG = "latest"
     }
 
