@@ -1,15 +1,15 @@
 pipeline {
     agent any
 
-    options {
+    /* options {
                disableConcurrentBuilds()  // Prevents @2 folders
-             }
+             } */
 
 
-    environment {
+    /* environment {
         IMAGE_NAME = 'dockergodown/userdetailservice'
         IMAGE_TAG = "latest"
-    }
+    } */
 
     tools {
         maven 'Maven_3.8.8'  // Adjust as needed
@@ -49,7 +49,7 @@ pipeline {
                     }
                 }
 
-        stage('Build Docker Image') {
+       /*  stage('Build Docker Image') {
             steps {
                 script {
                     sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
@@ -80,5 +80,5 @@ pipeline {
         failure {
             echo "Build failed!"
         }
-    }
+    } */
 }
