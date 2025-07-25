@@ -24,6 +24,26 @@ pipeline {
             }
         }
 
+        stage('AWS') {
+                    agent {
+                        docker {
+                            image 'amazon/aws-cli'
+                            args "--entrypoint=''"
+                        }
+                    }
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: 'awscred', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                           sh '''
+                             aws --version
+                             aws s3 ls
+                             echo "Hello s3!" > index.html
+                             aws s3 cp index.html s3://my-image-storage-bucket-2025/index.html
+                            '''
+                         }
+
+                    }
+                }
+
         stage('Build Docker Image') {
             steps {
                 script {
