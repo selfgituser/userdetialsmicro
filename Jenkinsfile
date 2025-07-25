@@ -36,8 +36,7 @@ pipeline {
                            sh '''
                              aws --version
                              aws s3 ls
-                             echo "Hello s3!" > index.html
-                             aws s3 cp index.html s3://my-image-storage-bucket-2025/index.html
+                             aws s3 cp target/ s3://my-image-storage-bucket-2025/jars/ --recursive --exclude "*" --include "*.jar"
                             '''
                          }
 
