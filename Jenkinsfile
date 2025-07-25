@@ -23,7 +23,7 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
-stage('AWS') {
+/* stage('AWS') {
     steps {
         script {
             docker.image('amazon/aws-cli').inside('--entrypoint=""') {
@@ -45,13 +45,14 @@ stage('AWS') {
             }
         }
     }
-}
+} */
 
 
-        /* stage('AWS') {
+        stage('AWS') {
                     agent {
                         docker {
                             image 'amazon/aws-cli'
+                            reuseNode true
                             args "--entrypoint=''"
                         }
                     }
@@ -65,7 +66,7 @@ stage('AWS') {
                          }
 
                     }
-                } */
+                }
 
         stage('Build Docker Image') {
             steps {
