@@ -28,9 +28,32 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+stage('AWS') {
+    steps {
+        script {
+            docker.image('amazon/aws-cli').inside('--entrypoint=""') {
+                withCredentials([usernamePassword(
+                    credentialsId: 'awscred',
+                    usernameVariable: 'AWS_ACCESS_KEY_ID',
+                    passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                )]) {
+                    sh '''
+                        echo "[INFO] AWS CLI version:"
+                        aws --version
+                        echo "[INFO] Listing S3 buckets:"
+                        aws s3 ls
+                        echo "[INFO] Uploading JARs to S3:"
+                        aws s3 cp "$WORKSPACE/target/" s3://my-image-storage-bucket-2025/jars/ \
+                            --recursive --exclude "*" --include "*.jar"
+                    '''
+                }
+            }
+        }
+    }
+}
 
 
-        stage('AWS') {
+        /* stage('AWS') {
                     agent {
                         docker {
                             image 'amazon/aws-cli'
@@ -47,7 +70,7 @@ pipeline {
                          }
 
                     }
-                }
+                } */
 
        /*  stage('Build Docker Image') {
             steps {
