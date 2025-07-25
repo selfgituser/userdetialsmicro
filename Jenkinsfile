@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    options {
+               disableConcurrentBuilds()  // Prevents @2 folders
+             }
+
+
     environment {
         IMAGE_NAME = 'dockergodown/userdetailservice'
         IMAGE_TAG = "latest"
@@ -23,6 +28,7 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+
 
         stage('AWS') {
                     agent {
