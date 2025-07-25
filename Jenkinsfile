@@ -24,11 +24,7 @@ pipeline {
             }
         }
 
-       stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-          }
+
         stage('AWS') {
                     agent {
                         docker {
