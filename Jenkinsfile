@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    options {
+        cleanWs() // cleans workspace after build
+    }
+
     environment {
         IMAGE_NAME = 'dockergodown/userdetailservice'
         IMAGE_TAG = "latest"
