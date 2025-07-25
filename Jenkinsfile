@@ -36,7 +36,7 @@ pipeline {
                            sh '''
                              aws --version
                              aws s3 ls
-                             aws s3 cp target/ s3://my-image-storage-bucket-2025/jars/ --recursive --exclude "*" --include "*.jar"
+                             aws s3 cp $WORKSPACE/target/ s3://my-image-storage-bucket-2025/jars/ --recursive --exclude "*" --include "*.jar"
                             '''
                          }
 
