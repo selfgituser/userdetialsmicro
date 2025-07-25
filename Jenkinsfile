@@ -70,15 +70,15 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
     }
 
-    post {
+   /*  post {
         success {
             echo "Build and Docker image creation successful: ${IMAGE_NAME}:${IMAGE_TAG}"
         }
         failure {
             echo "Build failed!"
         }
-    } */
+    }  */
 }
